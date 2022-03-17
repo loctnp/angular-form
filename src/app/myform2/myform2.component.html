@@ -1,0 +1,41 @@
+<form [formGroup]="regForm2" class="col col-6 container border p-3">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png" class="img-fluid w-25 mx-auto d-block" alt="">
+    <div class="mb-3">
+        <label class="w-100">
+            Your name:
+            <input type="text" class="form-control" formControlName="name" placeholder="Input your name" [class.is-invalid]="name.invalid && name.touched">
+            <div class="text-danger" *ngIf="name.invalid && name.touched">
+                <span *ngIf="name.errors?.['required']">Please input your name</span>
+                <span *ngIf="name.errors?.['minlength']">Your name must be at least 3 characters</span>
+            </div>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label class="w-100">
+            Your email:
+            <input type="text" class="form-control" formControlName="email" [email]='true' [class.is-invalid]="(regForm2.controls['email'].invalid && regForm2.controls['email'].touched) || regForm2.controls['email'].errors" required>
+            <div class="form-text text-danger" *ngIf="(regForm2.controls['email'].invalid && regForm2.controls['email'].touched) || regForm2.controls['email'].errors">
+                <span *ngIf="regForm2.controls['email'].errors['required']">Please input your email</span>
+                <span *ngIf="regForm2.controls['email'].errors['email']">Your email is not valid</span>
+            </div>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label class="w-100">
+            Password:
+            <input type="password" class="form-control" formControlName="password" required [class.is-invalid]="regForm2.controls['password'].invalid && regForm2.controls['password'].touched">
+            <div class="form-text text-danger" *ngIf="regForm2.controls['password'].invalid && regForm2.controls['password'].touched">Please input your password</div>
+        </label>
+    </div>
+    <div class="mb-3">
+        <label class="w-100">
+            Confirm your password:
+            <input type="password" class="form-control" formControlName="confirmPass" required [class.is-invalid]="regForm2.controls['confirmPass'].invalid && regForm2.controls['confirmPass'].touched">
+            <div class="form-text text-danger" *ngIf="regForm2.controls['confirmPass'].invalid && regForm2.controls['confirmPass'].touched">Please confirm your password</div>
+        </label>
+    </div>
+    <div>
+        <input type="submit" value="Submit" class="btn btn-primary me-3">
+        <input type="button" value="Set default values" (click)="setDefaultValues()" class="btn btn-secondary">
+    </div>
+</form>

@@ -1,0 +1,67 @@
+<div class="col-6 container border">
+    <form #regForm="ngForm" class="m-3">
+        <div class="text-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png" width="100px" class="mx-auto img-fluid" alt="">
+            <h4 class="text-primary">Đăng ký khoá học</h4>
+        </div>
+        <h4>Hello {{s.name}}</h4>
+        <label class="form-label w-100">
+            Tên:
+            <input name="name" type="text" #name='ngModel' class="form-control" [(ngModel)]="s.name" required [class.is-invalid]="(name.touched || name.dirty) && (name.invalid )">
+            <!-- <div class="form-text text-danger" *ngIf="(name.touched || name.dirty) && (name.invalid)"> Bạn chưa nhập tên</div> -->
+            <div class="form-text text-danger" [class.d-none]="name.untouched || name.valid">Bạn chưa nhập tên</div>
+
+        </label>
+        <!-- <div>
+            Touched: {{name.touched}} - Dirty: {{name.dirty}} - Invalid: {{name.invalid}}
+        </div>
+        <div>
+            Untouched: {{name.untouched}} - Pristine: {{name.pristine}} - Valid: {{name.valid}}
+        </div> -->
+        <label class="form-label w-100">
+            Email:
+            <input [(ngModel)]="s.email" [email]="true" placeholder="example@example.com" name="email" type="email" required class="form-control" #email="ngModel" [class.is-invalid]="email.invalid && email.touched">
+            <!-- <div class="form-text text-danger" [class.d-none]="email.valid || (email.untouched || email.pristine)">Please input a valid email</div> -->
+            <div class="form-text text-danger" *ngIf="email.errors && (email.invalid || email.touched)">
+                <span *ngIf="email.errors['required']">Bạn chưa nhập email</span>
+                <span *ngIf="email.errors['email']">Email không hợp lệ</span>
+            </div>
+        </label>
+        <label class="form-label w-100">
+            Điện thoại:
+            <input [(ngModel)]="s.phone" type="text" name="phone" class="form-control">
+        </label>
+        <label class="form-label w-100">
+            Chọn khoá học:
+            <select name="course" [(ngModel)]="s.course" #courses="ngModel" (blur)="courseValidation(courses.value)" (change)="courseValidation(courses.value)" class="form-select" id="" [class.is-invalid]="errorFlag && courses.touched">
+                <option value="none" selected>------------</option>
+                <option *ngFor="let c of course" value="{{c}}">{{c}}</option>
+            </select>
+            <div class="form-text text-danger" [class.d-none]="!errorFlag || courses.untouched">Please choose a course</div>
+        </label>
+        <div>
+            Chọn ca học:
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    Sáng
+                    <input [(ngModel)]="s.time" type="radio" class="form-check-input" name="time" id="" value="sang">
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    Tối
+                    <input [(ngModel)]="s.time" type="radio" class="form-check-input" name="time" id="" value="toi">
+                </label>
+            </div>
+        </div>
+        <div class="form-check form-check-inline">
+            <label class="form-check-label">
+                <input ngModel type="checkbox" class="form-check-input" #agree="ngModel" name="agree" id="">
+                Đồng ý với điều khoản
+            </label>
+        </div><br>
+        <input type="submit" value="Đăng ký" class="btn btn-primary" [disabled]="regForm.form.invalid || courses.value=='none' || agree.value==false">
+        <p>{{regForm.value|json}}</p>
+        <p>{{s|json}}</p>
+    </form>
+</div>
